@@ -96,7 +96,7 @@ Agora vamos brincar um pouco com o objeto criado:
 Qual o nome completo da pessoa? (Use a instrução para responder e comentários
 inline ao lado da instrução para mostrar qual foi a resposta retornada)
 */
-pessoa.nomeCompleto();
+pessoa.nomeCompleto(); // Fernando Mendes
 
 /*
 Qual a idade da pessoa? (Use a instrução para responder e comentários
@@ -178,7 +178,7 @@ deve conter no retorno da frase acima é "metro" no lugar de "metros".
 método), que será concatenada com a frase de retorno, mostrando a resposta
 correta, de acordo com os dados inseridos no objeto.
 */
-function apresentacao(pessoa) {
+pessoa.apresentacao = function() {
 
     var mensagemApresentacao = 'Olá, eu sou ';
 
@@ -205,4 +205,4 @@ function apresentacao(pessoa) {
 }
 
 // Agora, apresente-se ;)
-apresentacao(pessoa);
+pessoa.apresentacao();
