@@ -11,18 +11,10 @@ Envolva todo o código desse desafio em uma IIFE.
     Mostre esse array no console.
     */
     console.log( 'Number Objects Array:' );
-    var numberObjects = [
-        {number: 7 }, 
-        {number: 3 }, 
-        {number: 10 }, 
-        {number: 8 }, 
-        {number: 5 }, 
-        {number: 1 }, 
-        {number: 4 }, 
-        {number: 10 }, 
-        {number: 5 }, 
-        {number: 9 } 
-    ];
+    var numberObjects = [];
+    for(var i = 1; i <= 10; i++){
+        numberObjects.push({number: i});
+    }
     console.log(numberObjects);
 
     /*
@@ -56,8 +48,7 @@ Envolva todo o código desse desafio em uma IIFE.
     */
     console.log( '\nOperation:' );
     var operation = justMod2Or3.reduce(function(total, x) {
-        total++;
-        return total *= x;
+        return ++total * x;
     }, 0);
     console.log(operation);
 
@@ -67,11 +58,10 @@ Envolva todo o código desse desafio em uma IIFE.
     console.
     */
     console.log( '\nOperation 2:' );
-    operation = justMod2Or3.reduceRight(function(total, x) {
-        total++;
-        return total *= x;
+    var operation2 = justMod2Or3.reduceRight(function(total, x) {
+        return ++total * x;
     }, 0);
-    console.log(operation);
+    console.log(operation2);
 
     /*
     Crie um array chamado `name`. Cada elemento desse array deve ser uma sílaba
@@ -82,15 +72,10 @@ Envolva todo o código desse desafio em uma IIFE.
     falada, como se você estivesse falando em código xD
     */
     console.log( '\nSeu nome na língua do "P":' );
-    var nome = ['F', 'e', 'r', 'n', 'a', 'n', 'd', 'o', ' ', 'M', 'e', 'n', 'd', 'e', 's', ' ', 'J', 'u', 'n', 'i', 'o', 'r'];
+    var nome = ['Fer', 'nan', 'do'];
    
-    var space;
     var nomeP = nome.reduce(function(junto, silaba, index) {
-        if(index === 0 || space) {
-            silaba = 'P';
-        }
-        space = silaba === ' ';
-        return junto + silaba;
+        return junto + 'P' + silaba;
     }, '');
     console.log(nomeP);
 
@@ -101,7 +86,7 @@ Envolva todo o código desse desafio em uma IIFE.
     console.log( '\nInversed Name:' );
     var inversedName = nome.reduceRight(function(junto, silaba) {
         return junto + silaba;
-    });
+    }).toLowerCase();
     console.log(inversedName);
 
     /*
@@ -132,7 +117,7 @@ Envolva todo o código desse desafio em uma IIFE.
     console.log( '\nE buscando a partir do último índice, o { number: 2 } existe?' );
     number2 = numberObjects.map(function(obj) {
         return obj.number;
-    }).lastIndexOf(2);
+    }).lastIndexOf(2, 2);
     console.log ( number2 > -1 ? 'Existe um objeto { number: 2 } em numberObjects!' : 'Não existe um objeto { number: 2 } em numberObjects :('); 
 
     /*
