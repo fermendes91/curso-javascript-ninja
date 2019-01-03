@@ -53,12 +53,14 @@
     5 nomes foi somente uma sugestão ;)
     */
     console.log( '\nMeus amigos:' );
-    var nomes = ['fernando', 'thaysa', 'leandro', 'patricia', 'vivian'];
-    var reduced = nomes.reduce(function(acc, present) {
+    var nomes = ['fernando', 'thaysa', 'leandro', 'patricia', 'vivian', 'amadeu', 'antonio', 'leticia', 'ricardo'];
+    var reduced = nomes.reduce(function(acc, present, index) {
+        if(index === (nomes.length-1)) {
+            return acc + ' e ' + present;
+        }
         return acc + ', ' + present; 
     });
-    var commaLastIndex = reduced.lastIndexOf(',');
-    reduced = reduced + reduced.slice(commaLastIndex, 1) + ' e são meus amigos' ;
+    reduced += ' são meus amigos';
     console.log(reduced);
 
     /*
@@ -87,14 +89,17 @@
     Ex.: Nomes que deveriam funcionar: "Fernando", "RoBertO", "gabriEla", etc.
     */
     console.log( '\nNome com letras intercaladas entre caixa alta e baixa:' );
-    var myName = 'Fernando Mendes Junior ';
-
+    
+    var myName = 'LeTIciA';
+    var diffName = '';
     for(var i = 0; i < myName.length ; i++) {
-        myName = myName.replace(myName.charAt(i), myName.charAt(i).toUpperCase())
-        if(i % 2) {
-            myName = myName.replace(myName.charAt(i), myName.charAt(i).toLowerCase())
+        var letter = myName.charAt(i);
+        if(i % 2 === 0) {
+            diffName += letter.toUpperCase();
+        } else {
+            diffName += letter.toLowerCase();
         }
     }
-    console.log(myName);    
+    console.log(diffName);    
 
 })();
