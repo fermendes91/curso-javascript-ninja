@@ -35,13 +35,13 @@
     */
     console.log( '\nNome convertido à partir de um slug:' );
     var fullName = 'thaysa-silva-maciel-andrade'; 
-    var arrName = fullName.split('-');
+    var normalName = fullName.split('-').map(function(name) {
+        // return name.chartAt(0).toUpperCase() + name.slice(1);
+        return name.replace(name.charAt(0), name.charAt(0).toUpperCase());
+    }).join(' ');
 
-    arrName.forEach(function(name, index) {
-        arrName[index] = name.replace(name.charAt(0), name.charAt(0).toUpperCase());
-    });
     console.log(fullName);
-    console.log(arrName.join(' '));
+    console.log(normalName);
 
     /*
     - Crie um array com 5 nomes. Reduza esses nomes a uma única string, separando
@@ -54,23 +54,20 @@
     */
     console.log( '\nMeus amigos:' );
     var nomes = ['fernando', 'thaysa', 'leandro', 'patricia', 'vivian', 'amadeu', 'antonio', 'leticia', 'ricardo'];
-    var reduced = nomes.reduce(function(acc, present, index) {
+    var mensagem = nomes.reduce(function(acc, present, index) {
         if(index === (nomes.length-1)) {
             return acc + ' e ' + present;
         }
         return acc + ', ' + present; 
-    });
-    reduced += ' são meus amigos';
-    console.log(reduced);
+    }).concat(' são meus amigos');
+    console.log(mensagem);
 
     /*
     Usando o replace(), faça a string "Roberto" virar "Roberta".
     Mostre o resultado no console.
     */
     console.log( '\nEra "Roberto", agora é:' );
-    var robert = 'Roberto';
-    robert = robert.replace('Roberto', 'Roberta');
-    console.log(robert);
+    console.log('Roberto'.replace('to', 'ta'));
 
     /*
     Mostre no console a parte "nando" da string "Fernando". Use o método que
@@ -90,15 +87,10 @@
     */
     console.log( '\nNome com letras intercaladas entre caixa alta e baixa:' );
     
-    var myName = 'LeTIciA';
+    var myName = 'ferNANdO';
     var diffName = '';
     for(var i = 0; i < myName.length ; i++) {
-        var letter = myName.charAt(i);
-        if(i % 2 === 0) {
-            diffName += letter.toUpperCase();
-        } else {
-            diffName += letter.toLowerCase();
-        }
+        diffName += (i % 2 === 0) ? myName.charAt(i).toUpperCase() : myName.charAt(i).toLowerCase();
     }
     console.log(diffName);    
 
