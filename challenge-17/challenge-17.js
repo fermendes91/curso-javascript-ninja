@@ -103,8 +103,9 @@
     Mostre a regex no console.
     */
     console.log( '\nRegex que vai fazer o match com as datas do texto:' );
-    var regexDate
-    
+    var regexDate = /(\d\d) de (junho|julho) de (\d\d\d\d)/g;
+    console.log(regexDate);
+
     /*
     Agora crie a função que irá fazer o replace dos dados. A função será chamada
     de `replaceDate`. Ela deve retornar a data no formato:
@@ -113,5 +114,13 @@
     console o resultado.
     */
     console.log( '\nReplace de datas:' );
-    // ?
+    function replaceDate(regex, day, month, year) {
+        console.log('expressão capturada: ' + regex);
+        // referente ao \d\d    (junho|julho)     \d\d\d\d     respectivamente
+        console.log('primeiro valor capturado da expressão: ' + day);
+        console.log('segundo valor capturado da expressão: ' + month);
+        console.log('terceiro valor capturado da expressão: ' + year + '\n\n');
+        return day + '/' + getMonthNumber(month) + '/' + year;
+    }
+    console.log(text.replace(regexDate, replaceDate));
 })();
