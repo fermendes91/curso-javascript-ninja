@@ -39,6 +39,7 @@
 
 */
 (function() {
+    'use strict';
     /*
     Crie uma função chamada `cleanCPF`, que receba um CPF por parâmetro, e
     retorne esse CPF limpo (somente os números).
@@ -51,17 +52,14 @@
     */
     console.log( 'Limpando CPFs:' );
     function cleanCPF(cpf) {
+        // cpf.replace(/\D/g, ''); // \D pega tudo o que não é numero inverte a logica do \d;
         return cpf.replace(/[^\d+]/g, '');
     }
-
-    var cpf1 = cleanCPF('049-214 3421-1')
-    var cpf2 = cleanCPF('210.458.522-05')
-    var cpf3 = cleanCPF('735 500 794 - 22')
-    var cpf4 = cleanCPF('101.123-131x32')
-    console.log(cpf1);
-    console.log(cpf2);
-    console.log(cpf3);
-    console.log(cpf4);
+    var cpfs = [ '049-214 3421-1', '210.458.522-05', '735 500 794 - 22', '101.123-131x32' ];
+    var cleanedCpfs = cpfs.map(function(cpf) {
+        return  cleanCPF(cpf);
+    });
+    console.log(cleanedCpfs);
 
     /*
     Usando os CPFs limpos acima, deixe-os com a formatação correta de CPF.
@@ -72,6 +70,14 @@
     function formatCPF(cpf) {
         var formattedCPF = cleanCPF(cpf);
         
+        return formattedCPF.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, function(regex, arg1, arg2, arg3, arg4){
+            return arg1 + '.' + arg2 + '.' + arg3 + '-' + arg4;
+        });
+        
+        // return formattedCPF.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, '$1.$2.$3-$4');
+        
+        /*        
+        RESOLUÇÃO FEIETA POR MIM, GASTANDO MAIS CODIGO. 
         var i = 0;
         return formattedCPF.replace(/(\d{3})|(\d{2})/g, function(match) {
             if(i === 2) {
@@ -81,14 +87,13 @@
             }
             i++;
             return match ;
-        });
+        }); */
 
     }
 
-    console.log(formatCPF(cpf1));
-    console.log(formatCPF(cpf2));
-    console.log(formatCPF(cpf3));
-    console.log(formatCPF(cpf4));
+    cleanedCpfs.forEach(function(cpf) {
+        console.log(formatCPF(cpf));
+    });
 
     /*
     Crie uma expressão regular que faça match com as palavras "junho" ou "julho",
@@ -162,7 +167,12 @@
     corretas, para depois aplicar no código ;)
     */
     console.log( '\nFazer replace dos textos das tags:' );
-    
+    // .+ -> Seleciona tudo, exceto quebra de linha.
+
     text = '<h1>Título da página</h1><p>Este é um parágrafo</p><footer>Rodapé</footer>';
-    
+    regex = /<(\w+)>([^<]+)<\/\w+>/g;
+
+    console.log(text.replace(regex, 'O texto dentro da tag "$1" é "$2" </$1>\n' ));
+    // $1-> Substitui o primeiro grupo encontrado.
+
 })();
