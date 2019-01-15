@@ -72,13 +72,23 @@
     function formatCPF(cpf) {
         var formattedCPF = cleanCPF(cpf);
         
-        return formattedCPF.replace(/(\d{3})|(\d{2})/g, function(match, part2, part3, part4) {
+        var i = 0;
+        return formattedCPF.replace(/(\d{3})|(\d{2})/g, function(match) {
+            if(i === 2) {
+                match += '-';
+            } else if (i < 2) {
+                match += '.';
+            }
+            i++;
             return match ;
         });
 
     }
 
     console.log(formatCPF(cpf1));
+    console.log(formatCPF(cpf2));
+    console.log(formatCPF(cpf3));
+    console.log(formatCPF(cpf4));
 
     /*
     Crie uma expressão regular que faça match com as palavras "junho" ou "julho",
@@ -92,7 +102,11 @@
     ["junho", "julho"]
     */
     console.log( '\nMatch com as palavras "junho" ou "julho" para a frase "Os meses de janeiro, junho e julho começam com a letra j.":' );
-    // ?
+    var text = 'Os meses de janeiro, junho e julho começam com a letra j.';
+    var regex = /j\w{3}o/g;
+
+    console.log(text.match(regex));
+
 
     /*
     Crie uma expressão regular que faça o match com a abertura de uma tag
@@ -104,7 +118,11 @@
     ["<div>", "<section>", "<blockquote>"]
     */
     console.log( '\nMatch com a abertura de uma tag HTML:' );
-    // ?
+    
+    text = '<div><section><blockquote>Texto <img /></blockquote></section></div>';
+    regex = /<\w+>/g;
+
+    console.log(text.match(regex));
 
     /*
     Crie uma expressão regular que faça o match com uma tag HTML vazia, casando
@@ -116,7 +134,10 @@
     ["<li></li>", "<li></li>", "<span></span>"]
     */
     console.log( '\nMatch com tags HTML vazias (abertura e fechamento da tag):' );
-    // ?
+    text = '<div><ul><li></li><li></li><li><span></span></li></ul></div>';
+    regex = /(<\w+>)(<\/\w+>)/g;
+
+    console.log(text.match(regex));
 
     /*
     Vamos complicar um pouco agora :D
@@ -141,5 +162,7 @@
     corretas, para depois aplicar no código ;)
     */
     console.log( '\nFazer replace dos textos das tags:' );
-    // ?
+    
+    text = '<h1>Título da página</h1><p>Este é um parágrafo</p><footer>Rodapé</footer>';
+    
 })();
