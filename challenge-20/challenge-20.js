@@ -16,9 +16,9 @@
     nome, `username` deve receber "Desconhecido".
     Com a resposta, mostre um alert com a mensagem "Bem vindo [USERNAME]!"
     */
-    var username = prompt('Qual o seu nome?');
-    username = username ? username : 'Desconhecido';
-    alert('Bem vindo ' + username);
+    var username = prompt('Qual o seu nome?') || 'Desconhecido';
+    //username = username ? username : 'Desconhecido';
+    alert('Bem vindo ' + username + '!');
 
     /*
     Agora, pergunte ao usuário "Qual o seu e-mail?", atribuindo o resultado à
@@ -83,27 +83,23 @@
         - "Não enviado."
     */
     $button.addEventListener('click', function() {
-        if(!$inputUsername.value) {
-            alert('Preencha o nome do usuario!');
-            return; 
-        }
+        event.preventDefault(); // previni a ação padrão que seria enviar o formulario
 
-        if(!$inputEmail.value) {
-            alert('Preencha o e-mail!');
-            return; 
-        }
+        if(!$inputUsername.value) 
+            return alert('Preencha o nome do usuario!');
 
-        if(!$message.value) {
-            alert('Preencha a mensagem!');
-            return; 
-        }
+        if(!$inputEmail.value) 
+           return alert('Preencha o e-mail!');
 
-        if(!isValidEmail($inputEmail.value)) {
-            return;
-        }
+        if(!$message.value) 
+            return alert('Preencha a mensagem!');
 
-        var confirmation = confirm('Tem certeza de que deseja enviar o formulário?');
-        confirmation ? console.log('Enviado com sucesso') : console.log('Não enviado') ;
+        if(!isValidEmail($inputEmail.value)) 
+            return alert('Entre com um e-mail válido!');
+
+        if(!confirm('Tem certeza de que deseja enviar o formulário?'))
+            return alert('Não enviado');
+        return  alert('Enviado com sucesso!');
 
     }, false);
 
@@ -135,6 +131,11 @@
         - "agua_@evida.br.com"
     */
     function isValidEmail(email) {
-        
+        /*
+            Regex -> Inicia com qualquer alfanumerico, ou + ou ., seguido de @, seguido de uma frase com um . (escapado \), com 2 ou mais caracteres em seguida, 
+                     podendo ou não ter um ponto seguido de 2 caracteres, forçando a terminar nesse momento.
+        */
+        return /^[\w+.]+@\w+\.\w{2,}(\.\w{2})?$/.test(email);
     }
+    
 })(window, document);
