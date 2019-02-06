@@ -1,4 +1,4 @@
-(function () {
+(function (win, doc) {
     'use strict';
 
     /*
@@ -27,51 +27,22 @@
     - Ao pressionar o botão "CE", o input deve ficar zerado.
     */
 
-    var $elements = document.querySelectorAll('button');
-    var $inputCalc = document.querySelector('#input-calc');
-    var $btnClearAll = document.querySelector('.all-clear');
-    var $btnEquals = document.querySelector('.equal-sign');
-    $elements.forEach(function(element) {
-        element.onclick = function(element) {
-            updateCalculatorInput(element.path[0].value);
-        }
+    var $visor = doc.querySelector('[data-js="visor"]');
+    var $buttonsNumbers = doc.querySelectorAll('[data-js="button-number"]');
+    var $buttonCE = doc.querySelector('[data-js="button-operation-ce"]');
+
+    $buttonsNumbers.forEach(function($button) {
+        $button.addEventListener('click', handleClickNumber, false);
     });
+    $buttonCE.addEventListener('click', handleClickCE, false);
 
-    function updateCalculatorInput(input) {
-        if(input === '=')
-            return;
-
-        var isOperator = verifyOperator(input);
-        var isLastValueOperator = verifyOperator($inputCalc.value.charAt($inputCalc.value.length-1));
-
-        if($inputCalc.value == 0){
-            if(!isOperator) {
-                $inputCalc.value = input;
-            } 
-        } else {
-            if(isOperator && isLastValueOperator) {
-                $inputCalc.value = $inputCalc.value.replace(/(.?)$/, input);
-            } else {
-                $inputCalc.value += input;
-            }
-        }
-            
+    function handleClickNumber() {
+        $visor.value += this.value;
     }
 
-    function verifyOperator(char) {
-        return char == '+' || char == '-' || char == '*' || char == '/' || char == '.';
+    function handleClickCE(event) {
+        
     }
 
-    $btnClearAll.onclick = clearAll;
-    function clearAll() {
-        $inputCalc.value = 0;
-    }
-
-    $btnEquals.onclick = calculate;
-    function calculate() {
-        $inputCalc.value = eval($inputCalc.value);
-    }
-
-
-})();
+})(window, document);
 
