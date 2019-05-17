@@ -36,25 +36,29 @@
     function buscaCEP(event) {
       var cep_code = event.target.value;
       var regexOnlyNumbers = /(\d+)/g;
+      var $infoMessage = document.querySelector('.infoMessage');
 
       cep_code = cep_code.match(regexOnlyNumbers).join('');
     
       if(cep_code.length === 8) {
         cep_code = cep_code.slice(0, 5) + '-' + cep_code.slice(5);
+        $infoMessage.style.display = 'block';
         
         ajax.open('GET', 'http://apps.widenet.com.br/busca-cep/api/cep.json?code=' + cep_code);
         ajax.send();
-
+      
+        $infoMessage.textContent = 'Buscando informações para o CEP ... '
         ajax.addEventListener('readystatechange', function() {
           if(isRequestOK) {
             var addressObj = JSON.parse(ajax.responseText);
 
             if(addressObj.status) {
               populateAddressFields(addressObj);
+              $infoMessage.textContent = 'Endereço referente ao CEP: ' + cep_code
             } else {
-              console.log('CEP Não encontrado');
               populateAddressFields(addressObj);
-            }
+              $infoMessage.textContent = 'Não encontramos endereço para o CEP: ' + cep_code
+            }           
            
           }
 
