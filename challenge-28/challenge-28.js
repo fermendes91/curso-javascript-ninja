@@ -25,3 +25,55 @@
   - Utilize a lib DOM criada anteriormente para facilitar a manipulação e
   adicionar as informações em tela.
   */
+
+  (function () {
+    var ajax = new XMLHttpRequest;
+
+    var $inputCEP = document.querySelector('#cep');
+
+    $inputCEP.addEventListener('input', buscaCEP);
+
+    function buscaCEP(event) {
+      var cep_code = event.target.value;
+      var regexOnlyNumbers = /(\d+)/g;
+
+      cep_code = cep_code.match(regexOnlyNumbers).join('');
+    
+      if(cep_code.length === 8) {
+        cep_code = cep_code.slice(0, 5) + '-' + cep_code.slice(5);
+        
+        ajax.open('GET', 'http://apps.widenet.com.br/busca-cep/api/cep.json?code=' + cep_code);
+        ajax.send();
+
+        ajax.addEventListener('readystatechange', function() {
+          if(isRequestOK) {
+            var addressObj = JSON.parse(ajax.responseText);
+
+            if(addressObj.status) {
+              populateAddressFields(addressObj);
+            } else {
+              console.log('CEP Não encontrado');
+              populateAddressFields(addressObj);
+            }
+           
+          }
+
+        });
+
+        function populateAddressFields(addressObj) {
+          document.querySelector('#logradouro').value = addressObj.address || null;
+          document.querySelector('#bairro').value = addressObj.district || null;
+          document.querySelector('#estado').value = addressObj.state || null;
+          document.querySelector('#cidade').value = addressObj.city || null;
+          document.querySelector('#cepContent').value = addressObj.code || null;
+        }
+
+        function isRequestOK(ajax) {
+          return ajax.readyState === 4 && ajax.status === 200;
+        }
+
+
+      }
+
+    }
+  })();
