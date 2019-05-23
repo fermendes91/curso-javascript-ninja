@@ -39,18 +39,6 @@
 
     return {
       init: function() {
-
-        var $submitCar = new $('[event-js=submitCar]').get();
-        var $tbody = new $('tbody').get();
-    
-        // inputFields 
-        var $inputImagem = $('[name=imagem]').get();
-        var $inputMarca = $('[name=marca]').get();
-        var $inputModelo = $('[name=modelo]').get();
-        var $inputAno = $('[name=ano]').get();
-        var $inputPlaca = $('[name=placa]').get();
-        var $inputCor = $('[name=cor]').get();
-        
         this.companyInfo();
         this.initEvents();
       },
@@ -76,8 +64,10 @@
         var $tdPlate = document.createElement('td');
         var $tdColor = document.createElement('td');
 
-        debugger;
-        $tdImage.textContext = $('[data-js=image]').get().value;
+        var $image = document.createElement('img');
+        $image.src = $('[data-js=image]').get().value;
+
+        $tdImage.appendChild($image);
         $tdBrand.textContent = $('[data-js=brand-model]').get().value;
         $tdYear.textContent = $('[data-js=year]').get().value;
         $tdPlate.textContent = $('[data-js=plate]').get().value;
