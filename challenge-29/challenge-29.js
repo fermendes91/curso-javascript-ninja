@@ -1,7 +1,7 @@
 (function(DOM) {
   'use strict';
 
-  function app() {
+  var app = function appController() {
     /*
     Vamos estruturar um pequeno app utilizando módulos.
     Nosso APP vai ser um cadastro de carros. Vamos fazê-lo por partes.
@@ -37,106 +37,160 @@
     que será nomeado de "app".
     */
 
-    var $submitCar = new DOM('[event-js=submitCar]');
-    var $tbody = new DOM('tbody').get()[0];
+    return {
 
-    // inputFields 
-    var $inputImagem = new DOM('[name=imagem]').get()[0];
-    var $inputMarca = new DOM('[name=marca]').get()[0];
-    var $inputModelo = new DOM('[name=modelo]').get()[0];
-    var $inputAno = new DOM('[name=ano]').get()[0];
-    var $inputPlaca = new DOM('[name=placa]').get()[0];
-    var $inputCor = new DOM('[name=cor]').get()[0];
-
-    $submitCar.on('click', handleSubmitCar);
-
-    function handleSubmitCar() {
-      if(validateFields()) {
-        var $msgCarrosNaoCadastrados = new DOM('[name=msgSemCadastro').get()[0];
-        if($msgCarrosNaoCadastrados)
-          $msgCarrosNaoCadastrados.parentElement.removeChild($msgCarrosNaoCadastrados);
-
-        var car = {
-          imagem: $inputImagem.value,
-          marca: $inputMarca.value,
-          modelo: $inputModelo.value,
-          ano: $inputAno.value,
-          placa: $inputPlaca.value,
-          cor: $inputCor.value
-        }
-
-        insertLine(car);
-
-        function insertLine() {
-          var newLine = document.createElement('tr');
-          
-          for(var i = 0; i < Object.keys(car).length; i++) {
-            var newCell = document.createElement('td');
-            if(i === 0) {
-              var newCell = document.createElement('td');
-              var img = document.createElement('img');
-              img.setAttribute('src', Object.values(car)[i]);
-              newCell.appendChild(img);
-            } else {
-              newCell.textContent = Object.values(car)[i];
-            }
-            newLine.appendChild(newCell);
+      
+      init: function init() {
+        this.loadCompanyInfo();
+        this.initEvents();
+      },
+      loadCompanyInfo: function loadCompanyInfo() {
+                
+        var $companyName = new DOM('[data-js=company-name').get();
+        var $companyPhone = new DOM('[data-js=company-phone').get();
+  
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'company.json');
+        xhr.send();
+  
+        xhr.addEventListener('readystatechange', handleGetCompanyInfo);
+''
+        DOM('[name=imagem]').get().value = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0m5JIwJc-Yp63se2fAHjrSUPf47agv1HeTuIBs1fQgA6Ct0Le8w';
+        DOM('[name=marca]').get().value = 'Marca';
+        DOM('[name=modelo]').get().value = 'Modelo';
+        DOM('[name=ano]').get().value = 1999
+        DOM('[name=placa]').get().value = 'AVK-8314';
+        DOM('[name=cor]').get().value = 'Vermelho';
+  
+        function handleGetCompanyInfo() {
+          if(xhr.status === 200 && xhr.readyState === 4) {
+            var response = JSON.parse(xhr.responseText);
+            
+            $companyName.textContent = response.name;
+            $companyPhone.textContent = response.phone;
           }
+        }
+      },
+      initEvents: function initEvents() {
+        var $submitCar = DOM('[event-js=submitCar]');
+        $submitCar.on('click', this.handleSubmitCar);
+      },
+      handleSubmitCar: function handleSubmitCar() {        
+        var $tbody = DOM('tbody').get();
+        var car = getFieldValues();
 
-          $tbody.appendChild(newLine);
+        function getFieldValues() {
+          return {
+            imagem: new DOM('[name=imagem]').get().value,
+            marca: new DOM('[name=marca]').get().value,
+            modelo: new DOM('[name=modelo]').get().value,
+            ano: new DOM('[name=ano]').get().value,
+            placa: new DOM('[name=placa]').get().value,
+            cor: new DOM('[name=cor]').get().value
+          }
         }
 
-        clearInputFields();
-        return;
-      }
-
-      alert('Todos os campos devem ser preenchidos');
-    }
-
-    function validateFields() {
-      return $inputImagem.value &&
-        $inputMarca.value &&
-        $inputModelo.value &&
-        $inputAno.value &&
-        $inputPlaca.value && 
-        $inputCor.value;
-    }
-
-    function clearInputFields() {
-        $inputImagem.value = '';
-        $inputMarca.value = '';
-        $inputModelo.value = '';
-        $inputAno.value = '';
-        $inputPlaca.value = '';
-        $inputCor.value = '';
-    }
-
-    function loadCompanyInfo() {
-
-      var $companyName = new DOM('[data-js=company-name').get()[0];
-      var $companyPhone = new DOM('[data-js=company-phone').get()[0];
-
-      var xhr = new XMLHttpRequest();
-      xhr.open('GET', 'company.json');
-      xhr.send();
-
-      xhr.addEventListener('readystatechange', handleGetCompanyInfo)
-
-      function handleGetCompanyInfo() {
-        if(xhr.status === 200 && xhr.readyState === 4) {
-          var response = JSON.parse(xhr.responseText);
-          
-          $companyName.textContent = response.name;
-          $companyPhone.textContent = response.phone;
-
+        if(validateFields(car)) {
+          var $msgCarrosNaoCadastrados = new DOM('[name=msgSemCadastro').get();
+          if($msgCarrosNaoCadastrados)
+            $msgCarrosNaoCadastrados.parentElement.removeChild($msgCarrosNaoCadastrados);
+    
+          insertLine(car);
+  
+          function insertLine() {
+            var newLine = document.createElement('tr');
+            
+            for(var i = 0; i < Object.keys(car).length; i++) {
+              var newCell = document.createElement('td');
+              if(i === 0) {
+                var newCell = document.createElement('td');
+                var img = document.createElement('img');
+                img.setAttribute('src', Object.values(car)[i]);
+                newCell.appendChild(img);
+              } else {
+                newCell.textContent = Object.values(car)[i];
+              }
+              newLine.appendChild(newCell);
+            }
+            
+            app.createEventForRow(newLine);
+            
+            $tbody.appendChild(newLine);
+          }
+  
+          app.clearInputFields();
+          return;
         }
+
+        function validateFields(car) {
+          return car.imagem && car.marca && car.modelo && car.ano && car.placa && car.cor;
+        }
+  
+        alert('Todos os campos devem ser preenchidos');
+      },
+
+      createEventForRow: function createEventForRow(line) {
+        console.log('FUNCTION createEventForRow');
+
+        var $lastTD = document.createElement('td');
+        var $spanEdit = document.createElement('a');
+        var $spanRemove = document.createElement('a');
+
+        $spanEdit.textContent = 'E';
+        $spanRemove.textContent = 'X';
+        
+        $lastTD.style.textAlign = 'center';
+        $spanEdit.classList.add('actionTable');
+        $spanRemove.classList.add('actionTable');
+
+        $spanEdit.addEventListener('click', updateCar, false);
+        $spanRemove.addEventListener('click', removeCar, false);
+
+        $lastTD.appendChild($spanEdit);
+        $lastTD.appendChild($spanRemove);
+
+        line.appendChild($lastTD);
+
+        function updateCar(event) {
+          var $tds = event.srcElement.parentElement.parentElement.childNodes;
+
+          new DOM('[name=imagem]').get().value = $tds[0].childNodes[0].getAttribute('src');
+          new DOM('[name=marca]').get().value =  $tds[1].textContent;
+          new DOM('[name=modelo]').get().value = $tds[2].textContent;
+          new DOM('[name=ano]').get().value = $tds[3].textContent;
+          new DOM('[name=placa]').get().value = $tds[4].textContent;
+          new DOM('[name=cor]').get().value = $tds[5].textContent;
+
+          var $btnCadastrar = DOM('[event-js=submitCar]').get();
+          $btnCadastrar.setAttribute('value', 'Atualizar');
+
+          $btnCadastrar.addEventListener('click', handleUpdateCar);
+
+          function handleUpdateCar() {
+            console.log('update car');
+          }
+            
+        }
+
+        function removeCar(event) {
+          var $tr = event.srcElement.parentElement.parentElement;
+          $tr.parentElement.removeChild($tr);
+        }
+
+      },
+
+      clearInputFields: function clearInputFields() {
+        new DOM('[name=imagem]').get().value = '';
+        new DOM('[name=marca]').get().value = '';
+        new DOM('[name=modelo]').get().value = '';
+        new DOM('[name=ano]').get().value = '';
+        new DOM('[name=placa]').get().value = '';
+        new DOM('[name=cor]').get().value = '';
       }
     }
 
-    loadCompanyInfo();
-}
+}();
 
-window.app = app();
-
+app.init();
 
 })(window.DOM);
