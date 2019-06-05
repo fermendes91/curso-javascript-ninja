@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <p>O codigo abaixo irá comprimir o arquivo main.js e irá criar um novo arquivo main.min.js</p>
+    <p style="padding-bottom: 25px"><b>uglifyjs --output main.min.js -- main.js</b></p>
+
+    <p>O codigo abaixo irá comprimir ainda mais o arquivo main.js e irá criar um novo arquivo main.min.js</p>
+    <p style="padding-bottom: 25px"><b>uglifyjs --output main.min.js --compress -- main.js</b></p>
+
+    <p>O codigo abaixo irá comprimir ainda mais o arquivo do que nas formas anteriores
+        porém irá renomear o nome das funções e variaveis criadas durante o desenvolvimento</p>
+    <p style="padding-bottom: 25px"><b>uglifyjs --mangle --output main.min.js --compress -- main.js</b></p>
+
+    <p>O codigo abaixo irá comprimir o arquivo conforme foi visto acima
+            porém irá renomear o nome das funções e variaveis criadas durante o desenvolvimento</p>
+        <p><b>uglifyjs --mangle --output main.min.js --compress -- main.js</b></p>
+</body>
+<script src="main.min.js"></script>
+</html>
